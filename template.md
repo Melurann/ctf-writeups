@@ -1,8 +1,9 @@
 # {{CHALLENGE_NAME}}
 
 ## Description
-Tags: {category}
-<challenge prompt>
+> <challange_prompt>
+
+Tags: _{category}_
 
 ## Recon
 
