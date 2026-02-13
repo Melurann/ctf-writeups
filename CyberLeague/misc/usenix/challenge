@@ -1,0 +1,33 @@
+#!/bin/sh
+
+echo "[+] Welcome to Usenix paper submission system"
+echo "[+] Give us your .tex document and we'll compile & reject it for you!"
+echo "[+] We definitely don't have a flag in /flag.txt"
+
+echo ""
+
+echo "[+] Submit the base64 of a .tar.gz file containing your document (main.tex) in the root folder"
+echo "[+] Example: tar cz main.tex | base64 -w 0"
+echo "[>] --- BASE64 INPUT START ---"
+read FILE
+echo "[>] --- BASE64 INPUT END ---"
+
+DIR=$(mktemp -d)
+cd ${DIR}
+echo "${FILE}" | base64 -d -w 0 | tar xz
+rm -rf main.pdf
+echo "Rejected" >> main.tex
+/usr/bin/pdflatex main.tex 2>&1 >/dev/null
+
+if [ ! -e main.pdf ]
+then
+  echo "[!] Compilation failed :("
+  exit 1
+else
+  echo "[+] --- BASE64 OUTPUT START ---"
+  tar cz main.pdf | base64 -w 0
+  echo ""
+  echo "[+] --- BASE64 OUTPUT END ---"
+  echo "[+] Example: echo ... | base64 -d -w 0 | tar xz > main.pdf"
+  exit 0
+fi
