@@ -85,3 +85,29 @@ Hello rfruth
 Enter your key: y6ybzLa1
 You win!
 ```
+
+# Bonus Point Task:
+
+## Patching
+
+I opened the binary in BinaryNinja used the pseudo-C view and searched for the if statement then switch back to disassembly and replaced jne with je
+
+```asm
+00401bb8  e863f5ffff         call    strcmp
+00401bbd  85c0               test    eax, eax
+00401bbf  7411               jne     0x401bd2
+```
+
+```asm
+00401bb8  e863f5ffff         call    strcmp
+00401bbd  85c0               test    eax, eax
+00401bbf  7511               je      0x401bd2
+```
+
+After executing the new binary I got this:
+```bash
+Enter your name: a
+Hello a
+Enter your key: r
+You win!
+```
